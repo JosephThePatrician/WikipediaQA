@@ -2,6 +2,7 @@ numpy
 pandas
 scipy
 transformers
+sentence_transformers
 spacy
 beautifulsoup4
 asyncio
