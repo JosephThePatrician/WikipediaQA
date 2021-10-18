@@ -29,10 +29,13 @@ class WikiParser:
     """
     def __init__(self, lang : str ="en"):
         """
-        lang: 
+        lang: language of wikipedia
+        default "en"
+        list of all languages can be foun here https://meta.wikimedia.org/wiki/List_of_Wikipedias
         """
         self.headers = {'user-agent': 'my-app/0.0.1'}
         self.awiki = aiowiki.Wiki.wikipedia(lang)
+        wiki.set_lang(lang)
     
     def page(self, name):
         page = self.awiki.get_page(name)

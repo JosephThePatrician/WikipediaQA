@@ -1,25 +1,55 @@
 import torch
+import warnings
 
 
 class WikiQA:
-    def __init__(self, model=None, sentenceModel=None, batch_size=4, device=None):
+    def __init__(
+            self, 
+            model_name=None, 
+            sentenceModel_name=None,
+            lang = "en", 
+            batch_size=4, 
+            device=None):
+
+        """
+        model_name: path to model or Hugging Face model name
+        model should be for question answering
+        You can choose a model from https://huggingface.co/models
+        default: "twmkn9/distilbert-base-uncased-squad2"
+        
+        sentenceModel_name: path to model or Hugging Face model name
+        model should be for sentence similarity
+        You can choose a model from https://huggingface.co/models
+        default: "sentence-transformers/paraphrase-distilroberta-base-v2"
+
+        lang: language of wikipedia
+        list of all languages https://meta.wikimedia.org/wiki/List_of_Wikipedias
+        default "en"
+        """
+
         if not device:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        self.model = QAModel(model, tokenizer, batch_size, device)
+        if (not model_name) and (lang == "en"):
+            warnings.warn(
+                "You have changed the language but did not changed the model\n"
+                "You should choose the model for the right language from https://huggingface.co/models", 
+                RuntimeWarning)
+
+        self.model = QAModel(model_name, model_name, batch_size, device)
         
-        self.sentenceModel = SentenceModel(sentenceModel, device)
+        self.sentenceModel = SentenceModel(sentenceModel_name, device)
 
         self.parser = WikiParser()
         self.textProcessor = TextProcessor()
 
-    def ask(self, question):
+    def __call__(self, question):
         # try:
         answers = []
         search_requests = self.textProcessor(question)
 
         for search_request in search_requests:
-            answers.extend(self.findAnswers(question, search_request))
+            answers.extend(self.ask(question, search_request))
         
         if answers:
             # # debug
@@ -38,7 +68,7 @@ class WikiQA:
         #     print(traceback.format_exc())
         #     return 'Something went wrong :('
 
-    def findAnswers(self, question, search_request):
+    def ask(self, question, search_request):
         # print('we search wiki for:', search_request)
         search = self.parser.search(search_request)
         
