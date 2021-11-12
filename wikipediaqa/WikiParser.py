@@ -10,7 +10,7 @@ import aiohttp
 
 import sys
 
-from WikiParser import *
+from .WikiParser import *
 
 if 'ipykernel' in sys.modules:
     # workaround ipython notebooks already using async
