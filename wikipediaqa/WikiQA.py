@@ -1,6 +1,11 @@
 import torch
 import warnings
 
+from QAModel import *
+from SentenceModel import *
+from TextProcessor import *
+from WikiParser import *
+
 
 class WikiQA:
     def __init__(
@@ -33,7 +38,7 @@ class WikiQA:
         if (not model_name) and (lang == "en"):
             warnings.warn(
                 "You have changed the language but did not changed the model\n"
-                "You should choose the model for the right language from https://huggingface.co/models", 
+                "You should choose the model for the right language from https://huggingface.co/models",
                 RuntimeWarning)
 
         self.model = QAModel(model_name, model_name, batch_size, device)
