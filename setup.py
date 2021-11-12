@@ -1,7 +1,7 @@
 import setuptools
 
 with open("requirements.txt") as f:
-    requirements = f.read().splitlines()
+    requirements = f.read().split('\n')
 
 setuptools.setup(
     name="WikipediaQA",
@@ -15,9 +15,9 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     license="MIT",
     install_requires=requirements,
-    classifiers=(
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    )
+    # classifiers=(
+    #     "Programming Language :: Python :: 3",
+    #     "License :: OSI Approved :: MIT License",
+    #     "Operating System :: OS Independent",
+    # )
 )
