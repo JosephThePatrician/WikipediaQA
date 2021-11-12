@@ -3,6 +3,8 @@ import setuptools
 with open("requirements.txt") as f:
     requirements = f.read().split('\n')
 
+print(requirements)
+
 setuptools.setup(
     name="WikipediaQA",
     version="0.1.0",
