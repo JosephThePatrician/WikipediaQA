@@ -1,10 +1,10 @@
 import torch
 import warnings
 
-from QAModel import *
-from SentenceModel import *
-from TextProcessor import *
-from WikiParser import *
+from .QAModel import *
+from .SentenceModel import *
+from .TextProcessor import *
+from .WikiParser import *
 
 
 class WikiQA:
