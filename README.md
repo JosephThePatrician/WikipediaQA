@@ -1,2 +1,2 @@
 # WikipediaQA
-Python projectfor answering questions based on Wikipedia
+Python project for answering questions based on Wikipedia
