@@ -35,7 +35,7 @@ class WikiQA:
         if not device:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        if (not model_name) and (lang == "en"):
+        if (not model_name) and (lang != "en"):
             warnings.warn(
                 "You have changed the language but did not changed the model\n"
                 "You should choose the model for the right language from https://huggingface.co/models",
