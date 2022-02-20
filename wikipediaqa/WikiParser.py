@@ -18,11 +18,11 @@ if 'ipykernel' in sys.modules:
     nest_asyncio.apply()
 
 
-class UnOptimized(RuntimeWarning):
-    pass
+# class UnOptimized(RuntimeWarning):
+#     pass
 
 
-warnings.simplefilter('once', UnOptimized)
+# warnings.simplefilter('once', UnOptimized)
 
 
 class WikiParser:
@@ -39,6 +39,9 @@ class WikiParser:
         self.awiki = aiowiki.Wiki.wikipedia(lang)
         wiki.set_lang(lang)
     
+    def findBestPage(self, question):
+        pass
+
     def page(self, name):
         page = self.awiki.get_page(name)
         return Page(page, self)
@@ -73,10 +76,10 @@ class WikiParser:
         """
         Gets text from page
         Returns list of paragraphs
-        Paragraphs made with this rules:
+        
+        Paragraphs are concatenated if:
             header + text below
             text + list below
-            text without headers or lists near
         """
         response = requests.get(url, headers = self.headers)
         soup = BeautifulSoup(response.text)
@@ -133,27 +136,32 @@ class WikiParser:
 
         return out
 
-
 class Page:
+
     def __init__(self, page, parser=WikiParser()):
+        if isinstance(page, str):
+            page = parser.page(page)
         self.page = page
         self.title = page.title
         self.parser = parser
 
-        self.url = None
+        self.page_url = None
 
         self.repr_count = 0
 
     def __repr__(self):
-        warnings.warn(
-            "Warning while displaying Page\n"
-            "getting url of page takes a bit of time\n"
-            "if you need to display many pages it's advised to use page.title",
-             UnOptimized)
+        # warnings.warn(
+        #     "Warning while displaying Page\n"
+        #     "getting url of page takes a bit of time\n"
+        #     "if you need to display many pages it's advised to use page.title",
+        #      UnOptimized)
 
-        return f"<Page {self.title}  {self.url()}>"
+        return f"<Page {self.title} {self.url()}>"
 
     def url(self):
+        if self.page_url:
+            return self.page_url
+
         url = asyncio.run(self._getUrl())
         return url.view
     
