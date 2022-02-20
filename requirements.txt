@@ -3,7 +3,7 @@ pandas
 scipy
 transformers
 sentence_transformers
-spacy
+spacy>=3.0
 beautifulsoup4
 asyncio
 aiohttp
